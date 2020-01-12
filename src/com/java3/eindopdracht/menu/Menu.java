@@ -34,11 +34,16 @@ public abstract class Menu {
     }
 
     public String getFormattedAllergiesLabel() {
-        StringBuilder label = new StringBuilder("Allergies in this product are: \n\r");
-        for (Allergie a : Allergies) {
-            label.append("  -").append(a.getIngredientName()).append(": ").append(a.getAllergyType()).append("\r\n");
+        if (Allergies.size() > 0) {
+            StringBuilder label = new StringBuilder("Allergies in product " + getName() + " are: \n\r");
+            for (Allergie a : Allergies) {
+                label.append("  -").append(a.getIngredientName()).append(": ").append(a.getAllergyType()).append("\r\n");
+            }
+            return label.toString();
+        } else {
+            return "Product " + getName() + " doesn't contain any allergies";
         }
-        return label.toString();
+
     }
 
     protected abstract void addAllergies(String ItemName);

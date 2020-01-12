@@ -2,7 +2,7 @@ package com.java3.eindopdracht;
 
 public class MacOrderSystem {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Shop MacEmmen = new Shop();
 
         MacEmmen.addDiscountCode("10OFF", "€10");
@@ -15,6 +15,7 @@ public class MacOrderSystem {
         order1.addDiscountCode("HALFTHEPRICE");
         order1.addDiscountCode("10OFF");
         order1.printThisOrder();
+        order1.printAllergyInfoPerMenuItem();
 
     }
 }

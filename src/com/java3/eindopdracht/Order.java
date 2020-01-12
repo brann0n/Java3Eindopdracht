@@ -136,4 +136,11 @@ public class Order {
             dCodes.add(dCode);
         }
     }
+
+    public void printAllergyInfoPerMenuItem() {
+        //TODO: print allergy info for unique products
+        for (Menu item : thisOrder) {
+            System.out.println(item.getFormattedAllergiesLabel());
+        }
+    }
 }
