@@ -1,101 +1,129 @@
 package com.java3.eindopdracht;
 
-import com.java3.eindopdracht.food.*;
+import com.java3.eindopdracht.menu.*;
 
 import java.util.HashSet;
 
 public class Order {
-    private HashSet<Menu> thisOrder = new HashSet();
-    private String dCode = "";
-    private double totalPrice;
-    PickUpLocation pickUp = new PickUpLocation("Main window");
-    Percentage percentage = new Percentage();
-    Price DiscPrice = new Price();
-    public Order() {
+    private final HashSet<Menu> thisOrder = new HashSet<>();
+    private final HashSet<String> dCodes = new HashSet<>();
+    //private double totalPrice;
+    private final PickUpLocation pickUp;
+    private final Shop ContextShop;
 
+    public Order(Shop contextShop) {
+        pickUp = new PickUpLocation("Checkout Counter");
+        ContextShop = contextShop;
     }
 
-    public void addDrink(String drinkName, double priceOfItem) {//voeg drink toe aan order
-
-        Drink drinkje = new Drink(drinkName, priceOfItem);
-        if (drinkje.checkItem(drinkName)) {
-            thisOrder.add(drinkje);
+    /**
+     * voeg drink toe aan order
+     */
+    public void addDrink(String drinkName, int amount) {
+        if (Drink.checkAllowedDrink(drinkName)) {
+            int addCount = 0;
+            while (addCount < amount) {
+                Drink drinkje = new Drink(drinkName, Drink.getDrinkPrice(drinkName));
+                thisOrder.add(drinkje);
+                addCount++;
+            }
         } else {
             System.out.println("not a drink.");
         }
-
     }
 
-    public void addBurger(String burgerName, double priceOfItem) {//voeg burger toe
-        Burger burger = new Burger(burgerName, priceOfItem);
-        if (burger.checkItem(burgerName)) {
-            thisOrder.add(burger);
+    /**
+     * voeg burger toe
+     */
+    public void addBurger(String burgerName, int amount) {
+        if (Burger.checkAllowedBurger(burgerName)) {
+            int addCount = 0;
+            while (addCount < amount) {
+                Burger burger = new Burger(burgerName, Burger.getBurgerPrice(burgerName));
+                thisOrder.add(burger);
+                addCount++;
+            }
         } else {
             System.out.println("not a burger.");
         }
     }
 
-    public void addSnack(String snackName, double priceOfItem) {//voeg snack toe
-        Snack snack = new Snack(snackName, priceOfItem);
-        if (snack.checkItem(snackName)) {
-            thisOrder.add(snack);
+    /**
+     * voeg snack toe
+     */
+    public void addSnack(String snackName, int amount) {
+        if (Snack.checkAllowedSnack(snackName)) {
+            int addCount = 0;
+            while (addCount < amount) {
+                Snack snack = new Snack(snackName, Snack.getSnackPrice(snackName));
+                thisOrder.add(snack);
+                addCount++;
+            }
         } else {
             System.out.println("not a snack.");
         }
     }
 
-    public void addSpecial(String specialName, double priceOfItem) {//voeg special toe
-        Special special = new Special(specialName, priceOfItem);
-        if (special.checkItem(specialName)) {
-            thisOrder.add(special);
+    /**
+     * voeg special toe
+     */
+    public void addSpecial(String specialName, int amount) {
+        if (Special.checkAllowedSpecial(specialName)) {
+            int addCount = 0;
+            while (addCount < amount) {
+                Special special = new Special(specialName, Special.getSpecialPrice(specialName));
+                thisOrder.add(special);
+                addCount++;
+            }
         } else {
             System.out.println("not a special.");
         }
     }
 
-    public void addDesert(String desertName, double priceOfItem) {//voeg desert toe aan order
-        Desert desert = new Desert(desertName, priceOfItem);
-        if (desert.checkItem(desertName)) {
-            thisOrder.add(desert);
+    /**
+     * voeg desert toe aan order
+     */
+    public void addDesert(String desertName, int amount) {
+        if (Desert.checkAllowedDesert(desertName)) {
+            int addCount = 0;
+            while (addCount < amount) {
+                Desert desert = new Desert(desertName, Desert.getDesertPrice(desertName));
+                thisOrder.add(desert);
+                addCount++;
+            }
         } else {
             System.out.println("not a desert.");
         }
     }
 
-    public void printThisOrder() {//deze order word uitgeprint
-
+    /**
+     * deze order wordt uitgeprint
+     */
+    public void printThisOrder() {
         System.out.println("\nThis order contains the following items:");
-
         thisOrder.forEach((i) -> {
             System.out.println(i.getItemAndPrice());
         });
-        System.out.println("total: €" + getTotalPrice() + "\nThis Order can be picked up on location; " + pickUp.getPickUpLocation());
-
+        System.out.println("_________________\nTotal: €" + getTotalPrice() + "\nThis Order can be picked up on location; " + pickUp.getPickUpLocation());
     }
 
-    public double getTotalPrice() {//totaal prijs word berekent
-        totalPrice = 0;
-        thisOrder.forEach((i) -> {
-
-            totalPrice += i.getPriceOfItem();
-        });
-
-        if (!dCode.equals("")) {//kijken of er een code ingevoerd is
-            //TODO: kijken of de code ook voorkomt in de lijst
-            //check ^
-            //Percentage.calculateDiscount(getAmountOfDiscount, totalPrice)
-            //OR
-            //
-            //Price.calculateDiscount(getAmountOfDiscount, totalPrice)
-            System.out.println("Your discount code(" + dCode + ") is used for ****");
-        }
-
+    public double getTotalPriceNoDiscounts() {
+        double totalPrice = 0;
+        for (Menu menu : thisOrder)
+            totalPrice += menu.getPrice();
         return totalPrice;
     }
 
-    public void getAllergList() {//TODO: dit.
-        Menu nothing = new Menu("", 0);
-        nothing.getAllegieList();
+    public double getTotalPrice() {//totaal prijs word berekent
+        double tempPrice = getTotalPriceNoDiscounts();
+        for (String code : dCodes) {
+            System.out.println("Price reduction: " + code);
+            if (ContextShop.discounts.containsString(code)) {
+                tempPrice = ContextShop.discounts.get(code).calculateDiscount(tempPrice);
+            }
+        }
+
+        return tempPrice;
     }
 
     public void setOtherPickUpLocation(String location) {//set pick up locatie
@@ -103,8 +131,9 @@ public class Order {
         //System.out.println("Pick-up location is set on " + pickUp.getPickUpLocation());
     }
 
-    public void setDiscountcode(String dCode) {//set kortingcode voor deze order
-        this.dCode = dCode;
+    public void addDiscountCode(String dCode) {//set kortingcodes voor deze order
+        if (ContextShop.discounts.containsString(dCode)) {
+            dCodes.add(dCode);
+        }
     }
-
 }

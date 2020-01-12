@@ -1,25 +1,29 @@
 package com.java3.eindopdracht;
 
-import java.util.HashMap;
+import com.java3.eindopdracht.discounts.DiscountHashSet;
+import com.java3.eindopdracht.discounts.Discountable;
+
 import java.util.HashSet;
-import java.util.Map;
 
 public class Shop {
-    HashSet<Order> orderList = new HashSet<>();
+    private final HashSet<Order> orderList = new HashSet<>();
+    public final DiscountHashSet<Discountable> discounts = new DiscountHashSet<>();
     private double RevenueOfToday;
-    private HashMap<String, Integer> discountCodesPercentage = new HashMap<>();
-    private HashMap<String, Integer> discountCodesFlat = new HashMap<>();
 
     public Shop() {
-        discountCodesPercentage.put("Percentage", 5);
-        discountCodesPercentage.put("Tientie", 10);
-        discountCodesPercentage.put("Lekker", 15);
-        discountCodesPercentage.put("DikkeBMW", 20);
+        //discounts.add(new Percentage("Percentage" , 5));
+        // discounts.add(new Percentage("Tientie", 10));
+        // discounts.add(new Percentage("Lekker", 15));
+        // discounts.add(new Percentage("DikkeBMW", 20));
 
-        discountCodesFlat.put("funf", 5);
-        discountCodesFlat.put("zehn", 10);
-        discountCodesFlat.put("funfzehn", 15);
-        discountCodesFlat.put("zwanzig", 20);
+        //discounts.add(new Price("funf", 5));
+        //discounts.add(new Price("zehn", 10));
+        //discounts.add(new Price("funfzehn", 15));
+        //discounts.add(new Price("zwanzig", 20));
+    }
+
+    public Order createOrder() {
+        return new Order(this);
     }
 
     public void placeOrder(Order order) {//toevoegen van een order bij deze winkel
@@ -27,10 +31,7 @@ public class Shop {
     }
 
     public void printAllOrders() {//alle orders worden geprint met de bestelde items en prijzen
-
-        orderList.forEach((i) -> {
-            i.printThisOrder();
-        });
+        orderList.forEach(Order::printThisOrder);
     }
 
     public void printRevenue() {//print de omzet van de dag
@@ -39,46 +40,32 @@ public class Shop {
             RevenueOfToday += i.getTotalPrice();
         });
         System.out.println("\nThe Total Revenue of Today is: €" + RevenueOfToday);
+        //TODO: add info about revenue with and without all discounts
     }
 
-    public void getDicountList() {// print een lijst met alle discount codes en hoeveelheid
-        System.out.println("Percentage discountCodes:");
-        for (Map.Entry<String, Integer> entry : discountCodesPercentage.entrySet()) {
-            String key = entry.getKey();
-            Integer value = entry.getValue();
-            System.out.println(key + " : " + value + "%");
-        }
-
-        System.out.println("\nFlat Money discountCodes:");
-        for (Map.Entry<String, Integer> entry : discountCodesFlat.entrySet()) {
-            String key = entry.getKey();
-            Integer value = entry.getValue();
-            System.out.println(key + " : €" + value);
+    public void printDiscountList() {// print een lijst met alle discount codes en hoeveelheid
+        System.out.println("Available discount codes: ");
+        for (Discountable discount : discounts) {
+            System.out.println(discount.toString());
         }
     }
 
-    public void addDiscountCode(String option, String code, int disc) {//voeg een nieuwe kortings code toe, als het geen percentage is dan is het gwn vlak 5 geld ofzo
-        if ("Percentage".equals(option) && disc < 100) {
-            discountCodesPercentage.put(code, disc);
+    public void addDiscountCode(String code, String discount) {
+        //voeg een nieuwe kortings code toe, als het geen percentage is dan is het gwn vlak 5 geld ofzo
+        //AI stuff:
+        if (discount.startsWith("€")) {
+            int dPrice = Integer.parseInt(discount.substring(1, 3)); //take only the first 2 characters after the euro sign, 99 will be max :)
+            discounts.add(new Price(code, dPrice));
+        } else if (discount.endsWith("%")) {
+            int dPercentage = Integer.parseInt(discount.substring(0, 2)); //take only the first 2 characters of the string max percentage will be 99 :)
+            discounts.add(new Percentage(code, dPercentage));
         } else {
-            discountCodesFlat.put(code, disc);
+            //oof
+            //TODO: decide what to do here
         }
     }
 
     public void deleteFromDiscountList(String code) {// verwijderen uit korting lijst
-        for (Map.Entry<String, Integer> entry : discountCodesPercentage.entrySet()) {
-            String key = entry.getKey();
-            Integer value = entry.getValue();
-            if (code.equals(key)) {
-                discountCodesPercentage.remove(key, value);
-            }
-        }
-        for (Map.Entry<String, Integer> entry : discountCodesFlat.entrySet()) {
-            String key = entry.getKey();
-            Integer value = entry.getValue();
-            if (code.equals(key)) {
-                discountCodesFlat.remove(key, value);
-            }
-        }
+        discounts.removeIf(d -> d.getName() == code);
     }
 }
