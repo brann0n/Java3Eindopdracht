@@ -1,7 +1,6 @@
 package com.java3.eindopdracht;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,8 +16,12 @@ class OrderTest {
         order1 = MacEmmen.createOrder();
         MacEmmen.placeOrder(order1);
         //set up the discountcodes for the shop
-        MacEmmen.addDiscountCode("10OFF", "€10");
-        MacEmmen.addDiscountCode("HALFTHEPRICE", "50%");
+        try {
+            MacEmmen.addDiscountCode("10OFF", "€10");
+            MacEmmen.addDiscountCode("HALFTHEPRICE", "50%");
+        } catch (Exception e) {
+            //yeet
+        }
        /* Shop MacEmmen = new Shop();
 
         MacEmmen.addDiscountCode("10OFF", "€10");
