@@ -7,51 +7,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ShopTest {
-
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
+        Shop shop = new Shop();
 
     @Test
     void createOrder() {
+        shop.createOrder();
+        assertEquals(1, shop.orderList.size());
     }
 
-    @Test
-    void placeOrder() {
-    }
-
-    @Test
-    void addDiscountCode() {
-        Shop MacEmmen = new Shop();
-
-        //with correct input
-
-        try {
-            MacEmmen.addDiscountCode("HALFTHEPRICE", "50%");
-            MacEmmen.addDiscountCode("10OFF", "€10");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        assertEquals(2,MacEmmen.discounts.size());
-
-        //now with wrong input
-        try {
-            MacEmmen.addDiscountCode("TEST", "50");
-            MacEmmen.addDiscountCode("TEST", "€");
-            MacEmmen.addDiscountCode("TEST", "%");
-            MacEmmen.addDiscountCode("TEST", "");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        assertEquals(2,MacEmmen.discounts.size());
-    }
-
-    @Test
-    void deleteFromDiscountList() {
-    }
 }
