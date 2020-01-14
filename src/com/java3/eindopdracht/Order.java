@@ -1,12 +1,10 @@
 package com.java3.eindopdracht;
 
+import com.java3.eindopdracht.discounts.Discountable;
 import com.java3.eindopdracht.menu.*;
 
-import java.time.Clock;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.stream.IntStream;
 
 public class Order {
     private final HashSet<Menu> thisOrder = new HashSet<>();
@@ -131,7 +129,7 @@ public class Order {
             }
         }
 
-        return tempPrice;
+        return Discountable.round(tempPrice, 2);
     }
 
     public Double getDicountGiven(){

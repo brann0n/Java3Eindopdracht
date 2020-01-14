@@ -10,7 +10,7 @@ public class Burger extends Menu {
      * A HashMap with the available burgers, initialized with an anonymous innerclass
      * see: double brace initialization
      */
-    public static final HashMap<String, Double> AvailableBurgers = new HashMap<String, Double>() {{
+    public static final HashMap<String, Double> AvailableBurgers = new HashMap<>() {{
         put("Big Mac", 6.50);
         put("Big Tasty", 12.50);
         put("Double Quarter Pounder", 8d);
