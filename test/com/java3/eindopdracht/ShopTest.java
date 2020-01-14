@@ -29,15 +29,25 @@ class ShopTest {
         Shop MacEmmen = new Shop();
 
         //with correct input
-        MacEmmen.addDiscountCode("10OFF", "€10");
-        MacEmmen.addDiscountCode("HALFTHEPRICE", "50%");
+
+        try {
+            MacEmmen.addDiscountCode("HALFTHEPRICE", "50%");
+            MacEmmen.addDiscountCode("10OFF", "€10");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(2,MacEmmen.discounts.size());
 
         //now with wrong input
-        MacEmmen.addDiscountCode("TEST", "50");
-        MacEmmen.addDiscountCode("TEST", "€");
-        MacEmmen.addDiscountCode("TEST", "%");
-        MacEmmen.addDiscountCode("TEST", "");
+        try {
+            MacEmmen.addDiscountCode("TEST", "50");
+            MacEmmen.addDiscountCode("TEST", "€");
+            MacEmmen.addDiscountCode("TEST", "%");
+            MacEmmen.addDiscountCode("TEST", "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         assertEquals(2,MacEmmen.discounts.size());
     }
 

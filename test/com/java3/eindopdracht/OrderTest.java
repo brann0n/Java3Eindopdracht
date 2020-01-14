@@ -104,7 +104,7 @@ class OrderTest {
 
     @Test
     void addSnack() {
-        // Euroknaller costs €1.50, so total price should be 26 when added
+        // Euroknaller costs €1.50, so total price should be 6 when added
         order1.addSnack("Euroknaller", 6);
         assertEquals(6,order1.getTotalPrice());
 
@@ -127,7 +127,7 @@ class OrderTest {
 
     @Test
     void addSpecial() {
-        // KinderMenu costs €10, so total price should be 26 when added
+        // KinderMenu costs €10, so total price should be 60 when added
         order1.addSpecial("KinderMenu", 6);
         assertEquals(60,order1.getTotalPrice());
 
@@ -150,6 +150,25 @@ class OrderTest {
 
     @Test
     void addDesert() {
+        // Waterijsje costs €0.9, so total price should be 26 when added
+        order1.addDesert("Waterijsje", 2);
+        assertEquals(1.8,order1.getTotalPrice());
+
+        // add Sundae (costs €1.4), so total price should be 66 when added
+        order1.addDesert("Sundae", 2);
+        assertEquals(4.6,order1.getTotalPrice());
+
+        //Mac Cheese is not available in this shop(not a special)
+        order1.addDesert("Mac Cheese", 2);
+        assertEquals(4.6,order1.getTotalPrice());
+
+        // Waterijsje but its 0, nothing should be added
+        order1.addDesert("Waterijsje", 0);
+        assertEquals(4.6,order1.getTotalPrice());
+
+        // Waterijsje but its a negative amount, nothing should be added
+        order1.addDesert("Waterijsje", -1);
+        assertEquals(4.6,order1.getTotalPrice());
     }
 
     @Test
@@ -171,8 +190,13 @@ class OrderTest {
         Shop MacEmmen = new Shop();
 
         //set up the discountcodes for the shop
-        MacEmmen.addDiscountCode("10OFF", "€10");
-        MacEmmen.addDiscountCode("HALFTHEPRICE", "50%");
+        try {
+            MacEmmen.addDiscountCode("10OFF", "€10");
+            MacEmmen.addDiscountCode("HALFTHEPRICE", "50%");
+        } catch (Exception e) {
+           // e.printStackTrace();
+        }
+
         assertEquals(2,MacEmmen.discounts.size());
 
         //now with wrong inputasd
