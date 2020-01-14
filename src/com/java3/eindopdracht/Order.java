@@ -117,7 +117,7 @@ public class Order {
             double totalPrice = 0;
             for (Menu menu : thisOrder)
                 totalPrice += menu.getPrice();
-            return totalPrice;
+            return Discountable.round(totalPrice, 2);
         } else {
             throw new NoProductSelectedException("You haven't selected any products to buy.");
         }

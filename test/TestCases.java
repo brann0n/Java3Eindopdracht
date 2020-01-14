@@ -2,6 +2,7 @@ import com.java3.eindopdracht.NoProductSelectedException;
 import com.java3.eindopdracht.Order;
 import com.java3.eindopdracht.Shop;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,24 +52,39 @@ public class TestCases {
     @Test
     void TestCase3() throws Exception {
 
-        mac.addDiscountCode("FIVE", "€5");
-
+        mac.addDiscountCode("FIVE", "50%");
         Order myOrder = mac.createOrder();
-        myOrder.addDrink("Milkshake", 1);
         myOrder.addDiscountCode("FIVE");
 
-        double price = myOrder.getTotalPrice();
-        assertEquals(0, price);
+        Assertions.assertThrows(NoProductSelectedException.class, () -> {
+            double price = myOrder.getTotalPrice(); //throws the NoProductSelectedException
+        });
     }
 
     @Test
-    void TestCase4() {
+    void TestCase4() throws NoProductSelectedException {
+        Order myOrder = mac.createOrder();
+        myOrder.addBurger("Hamburger", 69);
 
+        double price = myOrder.getTotalPrice();
+        assertEquals(138, price);
     }
 
     @Test
     void TestCase5() {
+        Order myOrder = mac.createOrder();
+        myOrder.addBurger("Hamburger", 69);
+        Order myOrder1 = mac.createOrder();
+        myOrder.addBurger("Hamburger", 69);
+        Order myOrder2 = mac.createOrder();
+        myOrder.addBurger("Hamburger", 69);
+        Order myOrder3 = mac.createOrder();
+        myOrder.addBurger("Hamburger", 69);
 
+
+        Assertions.assertDoesNotThrow(() -> {
+
+        });
     }
 
 }
