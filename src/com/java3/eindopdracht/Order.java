@@ -8,9 +8,9 @@ import java.util.HashSet;
 
 public class Order {
     private final HashSet<Menu> thisOrder = new HashSet<>();
-    private final HashSet<String> dCodes = new HashSet<>();
+    public final HashSet<String> dCodes = new HashSet<>();
     //private double totalPrice;
-    private final PickUpLocation pickUp;
+    public PickUpLocation pickUp;
     private final Shop ContextShop;
     private double discountIsGiven = 0;
     public Order(Shop contextShop) {

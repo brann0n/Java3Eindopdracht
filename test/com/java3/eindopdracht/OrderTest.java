@@ -10,10 +10,12 @@ class OrderTest {
 
     Shop MacEmmen;
     Order order1;
+    PickUpLocation pickUp;
     @BeforeEach
     void setUp() {
         MacEmmen = new Shop();
         order1 = MacEmmen.createOrder();
+
         MacEmmen.placeOrder(order1);
         //set up the discountcodes for the shop
         try {
@@ -150,7 +152,7 @@ class OrderTest {
 
     @Test
     void addDesert() {
-        // Waterijsje costs €0.9, so total price should be 26 when added
+        // Waterijsje costs €0.9, so total price should be 1.8 when added
         order1.addDesert("Waterijsje", 2);
         assertEquals(1.8,order1.getTotalPrice());
 
@@ -173,35 +175,40 @@ class OrderTest {
 
     @Test
     void getTotalPriceNoDiscounts() {
+        // Waterijsje costs €0.9, so total price should be 20 when added
+        order1.addDesert("Waterijsje", 20);
+        assertEquals(18,order1.getTotalPriceNoDiscounts());
     }
 
     @Test
     void getTotalPrice() {
+        // Waterijsje costs €0.9, so total price should be 20 when added
+        order1.addDesert("Waterijsje", 20);
+        order1.addDesert("Waterijsje", 20);
+        assertEquals(36,order1.getTotalPrice());
     }
 
     @Test
     void setOtherPickUpLocation() {
-        Shop MacEmmen = new Shop();
 
+        assertEquals("Checkout Counter",  order1.pickUp.getPickUpLocation());
+        order1.setOtherPickUpLocation("Outside Counter");
+        assertEquals("Outside Counter",  order1.pickUp.getPickUpLocation());
     }
 
     @Test
     void addDiscountCode() {
-        Shop MacEmmen = new Shop();
-
-        //set up the discountcodes for the shop
-        try {
-            MacEmmen.addDiscountCode("10OFF", "€10");
-            MacEmmen.addDiscountCode("HALFTHEPRICE", "50%");
-        } catch (Exception e) {
-           // e.printStackTrace();
-        }
-
-        assertEquals(2,MacEmmen.discounts.size());
-
-        //now with wrong inputasd
+        //with correct input
         order1.addDiscountCode("HALFTHEPRICE");
         order1.addDiscountCode("10OFF");
-        assertEquals(2,MacEmmen.discounts.size());
+        assertEquals(2,order1.dCodes.size());
+
+        //with wrong discount codes should do nothing
+        order1.addDiscountCode("NOTACODE");
+        order1.addDiscountCode("NOTADISCOUNT");
+        order1.addDiscountCode("");
+        assertEquals(2,order1.dCodes.size());
+
+
     }
 }
