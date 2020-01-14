@@ -26,6 +26,12 @@ public class TestCases {
         mac = null;
     }
 
+    /**
+     * TC1
+     * INPUT: Bestellen van een hamburger (€2) en een milkshake (€3) zonder korting.
+     *
+     * OUTPUT: De prijs voor betalen (€5), Order nr voor het scherm (001)
+     */
     @Test
     void TestCase1() throws NoProductSelectedException {
         Order myOrder = mac.createOrder();
@@ -38,7 +44,6 @@ public class TestCases {
 
     @Test
     void TestCase2() throws Exception {
-
         mac.addDiscountCode("FIVE", "€5");
 
         Order myOrder = mac.createOrder();
@@ -51,7 +56,6 @@ public class TestCases {
 
     @Test
     void TestCase3() throws Exception {
-
         mac.addDiscountCode("FIVE", "50%");
         Order myOrder = mac.createOrder();
         myOrder.addDiscountCode("FIVE");
@@ -71,20 +75,28 @@ public class TestCases {
     }
 
     @Test
-    void TestCase5() {
+    void TestCase5() throws Exception {
+        mac.addDiscountCode("FIFTY", "50%");
+        mac.addDiscountCode("QUARTER", "25%");
+
         Order myOrder = mac.createOrder();
         myOrder.addBurger("Hamburger", 69);
-        Order myOrder1 = mac.createOrder();
-        myOrder.addBurger("Hamburger", 69);
-        Order myOrder2 = mac.createOrder();
-        myOrder.addBurger("Hamburger", 69);
-        Order myOrder3 = mac.createOrder();
-        myOrder.addBurger("Hamburger", 69);
+        myOrder.addDiscountCode("FIFTY");
 
+        Order myOrder1 = mac.createOrder();
+        myOrder1.addBurger("Hamburger", 10);
+        myOrder1.addDiscountCode("QUARTER");
+
+        Order myOrder2 = mac.createOrder();
+        myOrder2.addBurger("Hamburger", 5);
+        myOrder2.addDiscountCode("FIFTY");
+
+        Order myOrder3 = mac.createOrder();
+        myOrder3.addBurger("Hamburger", 3);
+        myOrder3.addDiscountCode("QUARTER");
 
         Assertions.assertDoesNotThrow(() -> {
-
+            mac.printRevenue();
         });
     }
-
 }

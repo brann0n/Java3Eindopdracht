@@ -148,7 +148,6 @@ public class Order {
     public void addDiscountCode(String dCode) {//set kortingcodes voor deze order
         if (ContextShop.discounts.containsString(dCode)) {
             dCodes.add(dCode);
-
         }
     }
 
