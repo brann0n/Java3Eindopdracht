@@ -1,5 +1,7 @@
 package com.java3.eindopdracht.menu;
 
+import com.java3.eindopdracht.allergie.AllergieType;
+
 import java.util.HashMap;
 
 public class Desert extends Menu {
@@ -8,11 +10,11 @@ public class Desert extends Menu {
      * A HashMap with the available deserts, initialized with an anonymous innerclass
      * see: double brace initialization
      */
-    public static final HashMap<String, Double> AvailableDeserts = new HashMap<>() {{
+    public static final HashMap<String, Double> AvailableDeserts = new HashMap<String, Double>() {{
         put("Oublie hoorn", 1d);
         put("Vanilla cone", 1.5);
         put("Sundae", 1.4);
-        put("Frozen Banana", 2d);
+        put("McFlurry", 2d);
         put("Waterijsje", 0.9);
     }};
 
@@ -23,9 +25,26 @@ public class Desert extends Menu {
 
     @Override
     protected void addAllergies(String ItemName) {
-        //TODO: add allergy for each product
         switch (ItemName) {
-
+            case "Oublie hoorn":
+                addAllergy("Ice Cream", AllergieType.MILK);
+                addAllergy("Ice Cream Cone", AllergieType.SOYA);
+                addAllergy("Sprinkles", AllergieType.NUTS);
+                break;
+            case "Vanilla cone":
+                addAllergy("Ice Cream", AllergieType.MILK);
+                addAllergy("Ice Cream Cone", AllergieType.SOYA);
+                break;
+            case "Sundae":
+                addAllergy("Ice Cream", AllergieType.MILK);
+                break;
+            case "Waterijsje":
+                break;
+            case "McFlurry":
+                addAllergy("Ice Cream", AllergieType.MILK);
+                addAllergy("Oreo Crumb", AllergieType.GLUTEN);
+                addAllergy("Oreo Crumb", AllergieType.SOYA);
+                break;
         }
     }
 

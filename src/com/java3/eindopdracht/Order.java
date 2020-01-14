@@ -2,7 +2,11 @@ package com.java3.eindopdracht;
 
 import com.java3.eindopdracht.menu.*;
 
+import java.time.Clock;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.IntStream;
 
 public class Order {
     private final HashSet<Menu> thisOrder = new HashSet<>();
@@ -10,7 +14,7 @@ public class Order {
     //private double totalPrice;
     private final PickUpLocation pickUp;
     private final Shop ContextShop;
-
+    private double discountIsGiven = 0;
     public Order(Shop contextShop) {
         pickUp = new PickUpLocation("Checkout Counter");
         ContextShop = contextShop;
@@ -104,6 +108,9 @@ public class Order {
         thisOrder.forEach((i) -> {
             System.out.println(i.getItemAndPrice());
         });
+        for (String code : dCodes) {
+            System.out.println("\nPrice reduction: " + code);
+        }
         System.out.println("_________________\nTotal: €" + getTotalPrice() + "\nThis Order can be picked up on location; " + pickUp.getPickUpLocation());
     }
 
@@ -117,13 +124,18 @@ public class Order {
     public double getTotalPrice() {//totaal prijs word berekent
         double tempPrice = getTotalPriceNoDiscounts();
         for (String code : dCodes) {
-            System.out.println("Price reduction: " + code);
+            //System.out.println("Price reduction: " + code);
             if (ContextShop.discounts.containsString(code)) {
                 tempPrice = ContextShop.discounts.get(code).calculateDiscount(tempPrice);
+                discountIsGiven = getTotalPriceNoDiscounts() - tempPrice;
             }
         }
 
         return tempPrice;
+    }
+
+    public Double getDicountGiven(){
+        return discountIsGiven;
     }
 
     public void setOtherPickUpLocation(String location) {//set pick up locatie
@@ -134,13 +146,17 @@ public class Order {
     public void addDiscountCode(String dCode) {//set kortingcodes voor deze order
         if (ContextShop.discounts.containsString(dCode)) {
             dCodes.add(dCode);
+
         }
     }
 
     public void printAllergyInfoPerMenuItem() {
-        //TODO: print allergy info for unique products
+        ArrayList<String> oke = new ArrayList<>();
         for (Menu item : thisOrder) {
-            System.out.println(item.getFormattedAllergiesLabel());
+            if (!oke.contains(item.getName())) {
+                oke.add(item.getName());
+                System.out.println(item.getFormattedAllergiesLabel());
+            }
         }
     }
 }
