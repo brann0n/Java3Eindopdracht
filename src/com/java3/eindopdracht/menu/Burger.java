@@ -11,6 +11,7 @@ public class Burger extends Menu {
      * see: double brace initialization
      */
     public static final HashMap<String, Double> AvailableBurgers = new HashMap<>() {{
+        put("Hamburger", 2d);
         put("Big Mac", 6.50);
         put("Big Tasty", 12.50);
         put("Double Quarter Pounder", 8d);
@@ -57,7 +58,11 @@ public class Burger extends Menu {
                 addAllergy("Big Tasty Sauce", AllergieType.EGG);
                 addAllergy("Cheddar Cheese Slice", AllergieType.MILK);
                 break;
-
+            case "Hamburger":
+                addAllergy("Bread", AllergieType.GLUTEN);
+                addAllergy("Hamburger Bun", AllergieType.SESAME);
+                addAllergy("Cheddar Cheese Slice", AllergieType.MILK);
+                break;
         }
     }
 
