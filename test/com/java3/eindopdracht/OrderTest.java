@@ -16,7 +16,9 @@ class OrderTest {
         MacEmmen = new Shop();
         order1 = MacEmmen.createOrder();
         MacEmmen.placeOrder(order1);
-
+        //set up the discountcodes for the shop
+        MacEmmen.addDiscountCode("10OFF", "€10");
+        MacEmmen.addDiscountCode("HALFTHEPRICE", "50%");
        /* Shop MacEmmen = new Shop();
 
         MacEmmen.addDiscountCode("10OFF", "€10");
@@ -94,16 +96,12 @@ class OrderTest {
     void addDiscountCode() {
         Shop MacEmmen = new Shop();
 
-        //with correct input
-        MacEmmen.addDiscountCode("10OFF", "€10");
-        MacEmmen.addDiscountCode("HALFTHEPRICE", "50%");
+
         assertEquals(2,MacEmmen.discounts.size());
 
-        //now with wrong input
-        MacEmmen.addDiscountCode("TEST", "50");
-        MacEmmen.addDiscountCode("TEST", "€");
-        MacEmmen.addDiscountCode("TEST", "%");
-        MacEmmen.addDiscountCode("TEST", "");
+        //now with wrong inputasd
+        order1.addDiscountCode("HALFTHEPRICE");
+        order1.addDiscountCode("10OFF");
         assertEquals(2,MacEmmen.discounts.size());
     }
 }
