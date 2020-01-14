@@ -101,7 +101,7 @@ public class Order {
     /**
      * deze order wordt uitgeprint
      */
-    public void printThisOrder() {
+    public void printThisOrder() throws NoProductSelectedException {
         System.out.println("\nThis order contains the following items:");
         thisOrder.forEach((i) -> {
             System.out.println(i.getItemAndPrice());
@@ -112,14 +112,18 @@ public class Order {
         System.out.println("_________________\nTotal: €" + getTotalPrice() + "\nThis Order can be picked up on location; " + pickUp.getPickUpLocation());
     }
 
-    public double getTotalPriceNoDiscounts() {
-        double totalPrice = 0;
-        for (Menu menu : thisOrder)
-            totalPrice += menu.getPrice();
-        return totalPrice;
+    public double getTotalPriceNoDiscounts() throws NoProductSelectedException {
+        if (thisOrder.size() != 0) {
+            double totalPrice = 0;
+            for (Menu menu : thisOrder)
+                totalPrice += menu.getPrice();
+            return totalPrice;
+        } else {
+            throw new NoProductSelectedException("You haven't selected any products to buy.");
+        }
     }
 
-    public double getTotalPrice() {//totaal prijs word berekent
+    public double getTotalPrice() throws NoProductSelectedException {//totaal prijs word berekent
         double tempPrice = getTotalPriceNoDiscounts();
         for (String code : dCodes) {
             //System.out.println("Price reduction: " + code);
@@ -132,7 +136,7 @@ public class Order {
         return Discountable.round(tempPrice, 2);
     }
 
-    public Double getDicountGiven(){
+    public double getDiscountGiven() {
         return discountIsGiven;
     }
 

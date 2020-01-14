@@ -11,7 +11,7 @@ public class Drink extends Menu {
      * see: double brace initialization
      */
     public static final HashMap<String, Double> AvailableDrinks = new HashMap<String, Double>() {{
-        put("Milkshake", 2.5);
+        put("Milkshake", 3d);
         put("Cola", 2d);
         put("Sinas", 2d);
         put("Sprite", 2d);

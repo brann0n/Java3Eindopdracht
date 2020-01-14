@@ -61,14 +61,14 @@ class OrderTest {
     }
 
     @Test
-    void addDrink() {
+    void addDrink() throws NoProductSelectedException {
         // Sinas costs €2, so total price should be 8 when added
         order1.addDrink("Sinas", 4);
-        assertEquals(8,order1.getTotalPrice());
+        assertEquals(8, order1.getTotalPrice());
 
         // Diet Coke is not available in this shop(not a drink)
         order1.addDrink("Diet Coke", 2);
-        assertEquals(8,order1.getTotalPrice());
+        assertEquals(8, order1.getTotalPrice());
 
         // Sinas but its 0, nothing should be added
         order1.addDrink("Sinas", 0);
@@ -80,14 +80,14 @@ class OrderTest {
     }
 
     @Test
-    void addBurger() {
+    void addBurger() throws NoProductSelectedException {
         // Big Mac costs €6.50, so total price should be 26 when added
         order1.addBurger("Big Mac", 4);
-        assertEquals(26,order1.getTotalPrice());
+        assertEquals(26, order1.getTotalPrice());
 
         // add XXL Meat Burger (costs €10), so total price should be 66 when added
         order1.addBurger("XXL Meat Burger", 4);
-        assertEquals(66,order1.getTotalPrice());
+        assertEquals(66, order1.getTotalPrice());
 
         //Mac Cheese is not available in this shop(not a burger)
         order1.addBurger("Mac Cheese", 2);
@@ -103,14 +103,14 @@ class OrderTest {
     }
 
     @Test
-    void addSnack() {
+    void addSnack() throws NoProductSelectedException {
         // Euroknaller costs €1.50, so total price should be 6 when added
         order1.addSnack("Euroknaller", 6);
-        assertEquals(6,order1.getTotalPrice());
+        assertEquals(6, order1.getTotalPrice());
 
         // add 10 Chicken Nuggets (costs €5), so total price should be 66 when added
         order1.addSnack("10 Chicken Nuggets", 2);
-        assertEquals(16,order1.getTotalPrice());
+        assertEquals(16, order1.getTotalPrice());
 
         //Mac Cheese is not available in this shop(not a snack)
         order1.addSnack("Mac Cheese", 2);
@@ -126,14 +126,14 @@ class OrderTest {
     }
 
     @Test
-    void addSpecial() {
+    void addSpecial() throws NoProductSelectedException {
         // KinderMenu costs €10, so total price should be 60 when added
         order1.addSpecial("KinderMenu", 6);
-        assertEquals(60,order1.getTotalPrice());
+        assertEquals(60, order1.getTotalPrice());
 
         // add Patat groot (costs €3), so total price should be 66 when added
         order1.addSpecial("Patat groot", 2);
-        assertEquals(66,order1.getTotalPrice());
+        assertEquals(66, order1.getTotalPrice());
 
         //Mac Cheese is not available in this shop(not a special)
         order1.addSpecial("Mac Cheese", 2);
@@ -149,14 +149,14 @@ class OrderTest {
     }
 
     @Test
-    void addDesert() {
+    void addDesert() throws NoProductSelectedException {
         // Waterijsje costs €0.9, so total price should be 26 when added
         order1.addDesert("Waterijsje", 2);
-        assertEquals(1.8,order1.getTotalPrice());
+        assertEquals(1.8, order1.getTotalPrice());
 
         // add Sundae (costs €1.4), so total price should be 66 when added
         order1.addDesert("Sundae", 2);
-        assertEquals(4.6,order1.getTotalPrice());
+        assertEquals(4.6, order1.getTotalPrice());
 
         //Mac Cheese is not available in this shop(not a special)
         order1.addDesert("Mac Cheese", 2);

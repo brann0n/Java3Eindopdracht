@@ -15,23 +15,31 @@ public class Shop {
     }
 
     public Order createOrder() {
-        return new Order(this);
+        Order newOrder = new Order(this);
+        this.placeOrder(newOrder);
+        return newOrder;
     }
 
     public void placeOrder(Order order) {//toevoegen van een order bij deze winkel
         orderList.add(order);
     }
 
-    public void printAllOrders() {//alle orders worden geprint met de bestelde items en prijzen
-        orderList.forEach(Order::printThisOrder);
+    public void printAllOrders() throws NoProductSelectedException {//alle orders worden geprint met de bestelde items en prijzen
+        for (Order order : orderList) {
+            order.printThisOrder();
+        }
     }
 
     public void printRevenue() {//print de omzet van de dag
         RevenueOfToday = 0;
         discountOfToday = 0;
         orderList.forEach((i) -> {
-            RevenueOfToday += i.getTotalPrice();
-            discountOfToday += i.getDicountGiven();
+            try {
+                RevenueOfToday += i.getTotalPrice();
+                discountOfToday += i.getDiscountGiven();
+            } catch (NoProductSelectedException e) {
+                //this order has no products, ignore it for the total revenue
+            }
         });
         System.out.println("\nThe Total Revenue of Today is: €" + RevenueOfToday + "\nDiscount given today is: €" + discountOfToday);
     }
@@ -48,20 +56,20 @@ public class Shop {
         //AI stuff:
         if (discount.startsWith("€")) {
             try {
-                int dPrice = Integer.parseInt(discount.substring(1, 3)); //take only the first 2 characters after the euro sign, 99 will be max :)
+                int dPrice = Integer.parseInt(discount.replace("€", "")); //take only the first 2 characters after the euro sign, 99 will be max :)
                 discounts.add(new Price(code, dPrice));
             } catch (Exception e) {
-                System.out.println("Incorrect discount value submitted.");
+                System.out.println("Incorrect discount euro value submitted.");
             }
         } else if (discount.endsWith("%")) {
             try {
-                int dPercentage = Integer.parseInt(discount.substring(0, 2)); //take only the first 2 characters of the string max percentage will be 99 :)
+                int dPercentage = Integer.parseInt(discount.replace("%", "")); //take only the first 2 characters of the string max percentage will be 99 :)
                 discounts.add(new Percentage(code, dPercentage));
             } catch (Exception e) {
-                System.out.println("Incorrect discount value submitted.");
+                System.out.println("Incorrect discount percentage value submitted.");
             }
         } else {
-            throw new Exception("dikke tyfus");
+            throw new Exception("Unknown discount value submitted");
             // System.out.println("Incorrect discount value submitted.");
         }
     }
