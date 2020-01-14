@@ -15,7 +15,7 @@ public class Snack extends Menu {
         put("McChicken", 2d);
         put("10 Chicken Nuggets", 5d);
         put("6 Chicken Nuggets", 3.5);
-        put("Chocolate Brownie", 1.99);
+        put("Chocolate Brownie", 1.50);
     }};
 
     public Snack(String itemOfOrder, double priceOfItem) {
