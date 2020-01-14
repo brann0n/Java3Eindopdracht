@@ -22,6 +22,7 @@ class OrderTest {
         MacEmmen.addDiscountCode("10OFF", "€10");
         MacEmmen.addDiscountCode("HALFTHEPRICE", "50%");
         MacEmmen.printDiscountList();
+        oke
 
         Order order1 = MacEmmen.createOrder();
         MacEmmen.placeOrder(order1);
