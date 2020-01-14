@@ -6,7 +6,7 @@ import com.java3.eindopdracht.discounts.Discountable;
 import java.util.HashSet;
 
 public class Shop {
-    private final HashSet<Order> orderList = new HashSet<>();
+    public final HashSet<Order> orderList = new HashSet<>();
     public final DiscountHashSet<Discountable> discounts = new DiscountHashSet<>();
     private double RevenueOfToday;
     private double discountOfToday;

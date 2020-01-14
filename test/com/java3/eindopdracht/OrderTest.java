@@ -142,14 +142,14 @@ class OrderTest {
     }
 
     @Test
-    void getTotalPriceNoDiscounts() {
+    void getTotalPriceNoDiscounts() throws NoProductSelectedException {
         // Waterijsje costs €0.9, so total price should be 20 when added
         order1.addDesert("Waterijsje", 20);
         assertEquals(18,order1.getTotalPriceNoDiscounts());
     }
 
     @Test
-    void getTotalPrice() {
+    void getTotalPrice() throws NoProductSelectedException {
         // Waterijsje costs €0.9, so total price should be 20 when added
         order1.addDesert("Waterijsje", 20);
         order1.addDesert("Waterijsje", 20);
