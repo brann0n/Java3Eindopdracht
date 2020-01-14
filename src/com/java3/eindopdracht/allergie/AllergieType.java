@@ -2,15 +2,22 @@ package com.java3.eindopdracht.allergie;
 
 public enum AllergieType {
     /**
-     * All the possible allergies in a list
-     */
-    //TODO: add actual allergies
+    * All the possible allergies in a list
+    */
+    CELERY_AND_CELERIAC("Celery and Celeriac"),
+    CRUSTACEANS("Crustaceans"),
+    EGG("Egg"),
+    FISH("Fish"),
     GLUTEN("Gluten"),
-    VEGAN("Vegan"),
-    NUTS("Nuts"),
-    MILK("Milk"),
     LUPIN("Lupin"),
-    MUSTARD("Mustard");
+    MILK("Milk"),
+    MOLLUSKS("Mollusks"),
+    MUSTARD("Mustard"),
+    NUTS("Nuts"),
+    PEANUT("Peanut"),
+    SESAME("Sesame"),
+    SOYA("Soya"),
+    SULPHUR_DIOXIDE_AND_SULPHIDES("Sulphur Dioxide and Sulphides (levels greater than 10ppm)");
 
     private final String value;
 
