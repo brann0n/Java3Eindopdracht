@@ -9,7 +9,6 @@ import java.util.HashSet;
 public class Order {
     private final HashSet<Menu> thisOrder = new HashSet<>();
     public final HashSet<String> dCodes = new HashSet<>();
-    //private double totalPrice;
     public PickUpLocation pickUp;
     private final Shop ContextShop;
     private double discountIsGiven = 0;
@@ -103,15 +102,20 @@ public class Order {
      */
     public void printThisOrder() throws NoProductSelectedException {
         System.out.println("\nThis order contains the following items:");
-        thisOrder.forEach((i) -> {
-            System.out.println(i.getItemAndPrice());
-        });
+        for (Menu itemOfMenu : this.thisOrder) {
+            System.out.println(itemOfMenu.getItemAndPrice());
+        }
         for (String code : dCodes) {
             System.out.println("\nPrice reduction: " + code);
         }
         System.out.println("_________________\nTotal: €" + getTotalPrice() + "\nThis Order can be picked up on location; " + pickUp.getPickUpLocation());
     }
 
+    /**
+     * de totaal prijs word berekent ZONDER de discount
+     * @return totaalprijs van order zonder discount
+     * @throws NoProductSelectedException
+     */
     public double getTotalPriceNoDiscounts() throws NoProductSelectedException {
         if (thisOrder.size() != 0) {
             double totalPrice = 0;
@@ -123,10 +127,14 @@ public class Order {
         }
     }
 
+    /**
+     * de totaal prijs word berekent MET de discount
+     * @return totaalprijs van order met discount
+     * @throws NoProductSelectedException
+     */
     public double getTotalPrice() throws NoProductSelectedException {//totaal prijs word berekent
         double tempPrice = getTotalPriceNoDiscounts();
         for (String code : dCodes) {
-            //System.out.println("Price reduction: " + code);
             if (ContextShop.discounts.containsString(code)) {
                 tempPrice = ContextShop.discounts.get(code).calculateDiscount(tempPrice);
                 discountIsGiven = getTotalPriceNoDiscounts() - tempPrice;
@@ -136,21 +144,35 @@ public class Order {
         return Discountable.round(tempPrice, 2);
     }
 
+    /**
+     * returned de totale discount die gegeven is op deze order
+     * @return double gegeven discount op deze order
+     */
     public double getDiscountGiven() {
         return discountIsGiven;
     }
 
-    public void setOtherPickUpLocation(String location) {//set pick up locatie
+    /**
+     * set nieuwe pickUp locatie
+     * @param location is nieuwe pickUp locatie
+     */
+    public void setOtherPickUpLocation(String location) {
         pickUp.setDifferentLocation(location);
-        //System.out.println("Pick-up location is set on " + pickUp.getPickUpLocation());
     }
 
-    public void addDiscountCode(String dCode) {//set kortingcodes voor deze order
+    /**
+     * set een discountcode voor deze order
+     * @param dCode word toegevoegd aan lijst met discounts op deze order
+     */
+    public void addDiscountCode(String dCode) {
         if (ContextShop.discounts.containsString(dCode)) {
             dCodes.add(dCode);
         }
     }
 
+    /**
+     * print lijst met allergiën voor elk item in de order
+     */
     public void printAllergyInfoPerMenuItem() {
         ArrayList<String> oke = new ArrayList<>();
         for (Menu item : thisOrder) {

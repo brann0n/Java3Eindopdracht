@@ -7,10 +7,18 @@ public class PickUpLocation {
         this.location = location;
     }
 
+    /**
+     * nieuwe pickUp locatie word geset
+     * @param location is nieuwe pickUp loactie
+     */
     public void setDifferentLocation(String location) {//veranderen van pick up locatie
         this.location = location;
     }
 
+    /**
+     * returned de pickUp locatie
+     * @return locatie
+     */
     public String getPickUpLocation() {
         return this.location;
     }

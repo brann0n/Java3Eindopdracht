@@ -30,7 +30,7 @@ public class TestCases {
      * TC1
      * INPUT: Bestellen van een hamburger (€2) en een milkshake (€3) zonder korting.
      *
-     * OUTPUT: De prijs voor betalen (€5), Order nr voor het scherm (001)
+     * OUTPUT: De prijs voor betalen (€5)
      */
     @Test
     void TestCase1() throws NoProductSelectedException {
@@ -42,6 +42,12 @@ public class TestCases {
         assertEquals(5, price);
     }
 
+    /**
+     * TC2
+     * INPUT: Kortingscode voor €5 korting en bestellen van een Milkshake(€5).
+     *
+     * OUTPUT: De prijs voor betalen (€0)
+     */
     @Test
     void TestCase2() throws Exception {
         mac.addDiscountCode("FIVE", "€5");

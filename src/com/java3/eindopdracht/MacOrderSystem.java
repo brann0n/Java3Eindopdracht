@@ -2,15 +2,12 @@ package com.java3.eindopdracht;
 
 public class MacOrderSystem {
 
-    public static void main(String[] args) throws NoProductSelectedException {
+    public static void main(String[] args) throws Exception {
         Shop MacEmmen = new Shop();
 
         //MacEmmen.addDiscountCode("10OFF", "€");
-        try {
-            MacEmmen.addDiscountCode("HALFTHEPRICE", "50%");
-        } catch (Exception e) {
-            //asdas
-        }
+
+        MacEmmen.addDiscountCode("HALFTHEPRICE", "50%");
         MacEmmen.printDiscountList();
 
         Order order1 = MacEmmen.createOrder();

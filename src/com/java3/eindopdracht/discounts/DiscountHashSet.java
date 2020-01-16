@@ -6,7 +6,7 @@ public class DiscountHashSet<T extends Discountable> extends HashSet<T> {
 
     public boolean containsString(String name) {
         for (T item : this) {
-            if (item.getName().equals(name)) {
+            if (item.getThisDiscountCode().equals(name)) {
                 return true;
             }
         }
@@ -22,7 +22,7 @@ public class DiscountHashSet<T extends Discountable> extends HashSet<T> {
      */
     public T get(String name) {
         for (T item : this) {
-            if (item.getName().equals(name)) {
+            if (item.getThisDiscountCode().equals(name)) {
                 return item;
             }
         }

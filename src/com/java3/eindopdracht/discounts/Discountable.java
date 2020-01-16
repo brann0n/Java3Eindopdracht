@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public interface Discountable {
-    String getName();
+    String getThisDiscountCode();
 
     double calculateDiscount(double totalPrice);
 
